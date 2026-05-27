@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // User profile and settings
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      // Products Subcollection
+      match /products/{productId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Resellers Subcollection
+      match /resellers/{resellerId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Transactions Subcollection
+      match /transactions/{transactionId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+  }
+}

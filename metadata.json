@@ -1,0 +1,6 @@
+{
+  "name": "Clothing Distributor ERP",
+  "description": "A lightweight, mobile-first ERP for clothing distributors to manage product catalogs, assign stock to resellers, and track payments, debts, and commissions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

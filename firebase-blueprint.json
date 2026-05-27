@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile document containing preference details like dark mode and display name",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "darkMode": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email"]
+    },
+    "Product": {
+      "title": "Product Mode",
+      "description": "Product (clothing variant metadata)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "sizes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "colors": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "costPrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "category", "sizes", "colors", "costPrice", "sellingPrice", "createdAt"]
+    },
+    "Reseller": {
+      "title": "Reseller Partner",
+      "description": "Wholesale distribution and marketing partner details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "socialMedia": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "phone", "createdAt"]
+    },
+    "Transaction": {
+      "title": "Financial and Stock Ledger Transaction",
+      "description": "A ledger transactional entry for stock flows or payments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["STOCK_IN", "STOCK_OUT", "PAYMENT"] },
+        "date": { "type": "string" },
+        "notes": { "type": "string" },
+        "productId": { "type": "string" },
+        "size": { "type": "string" },
+        "color": { "type": "string" },
+        "quantity": { "type": "number" },
+        "resellerId": { "type": "string" },
+        "amount": { "type": "number" }
+      },
+      "required": ["id", "type", "date"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and settings dashboard preferences"
+    },
+    "/users/{userId}/products/{productId}": {
+      "schema": "Product",
+      "description": "User specific clothing model items"
+    },
+    "/users/{userId}/resellers/{resellerId}": {
+      "schema": "Reseller",
+      "description": "User specific reseller partners and records"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "User ledger for payments and stock inputs/outputs"
+    }
+  }
+}
